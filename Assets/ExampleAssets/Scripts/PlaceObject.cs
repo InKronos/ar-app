@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using EnchancedTouch = UnityEngine.InputSystem.EnhancedTouch;
@@ -13,6 +12,7 @@ public class PlaceObject : MonoBehaviour
 {   
     [SerializeField] 
     private GameObject prefab;
+    private Camera arCam;
 
     private ARRaycastManager aRRaycastManager;
     private ARPlaneManager aRPlaneManager;
@@ -21,6 +21,7 @@ public class PlaceObject : MonoBehaviour
     private void Awake() {
         aRRaycastManager = GetComponent<ARRaycastManager>();
         aRPlaneManager = GetComponent<ARPlaneManager>();
+        arCam = GameObject.Find("AR Camera").GetComponent<Camera>();
     }
 
     private void OnEnable() {
@@ -42,18 +43,27 @@ public class PlaceObject : MonoBehaviour
             hits, TrackableType.PlaneWithinPolygon)) {
             foreach(ARRaycastHit hit in hits) {
                 Pose pose = hit.pose;
+                pose.position.y += 0.5f;
                 GameObject obj = Instantiate(prefab, pose.position, pose.rotation);
 
-                if (aRPlaneManager.GetPlane(hit.trackableId).
-                    alignment == PlaneAlignment.HorizontalUp) {
+                if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp) {
                         Vector3 position = obj.transform.position;
-                        Vector3 cameraPosition = Camera.main.transform.position;
+                        Vector3 cameraPosition = arCam.transform.position;
                         Vector3 direction = cameraPosition - position;
-                        Vector3 targetRotationEuler = Quaternion.LookRotation(direction).
-                        eulerAngles;
+                        Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
                         Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, obj.transform.up.normalized);
                         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
                         obj.transform.rotation = obj.transform.rotation * targetRotation;
+                }
+            }
+        }
+        
+        RaycastHit h;
+        Ray ray = arCam.ScreenPointToRay(Input.GetTouch(0).position);
+        if (Input.GetTouch(0).phase == TouchPhase.Began) {
+            if (Physics.Raycast(ray, out h)) {
+                if (h.collider.gameObject.tag == "helic") {
+                    h.collider.gameObject.GetComponent<Controller>().toggleRotation();
                 }
             }
         }

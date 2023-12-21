@@ -329,7 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlanePrefab: {fileID: 4069109745243395930, guid: 0377f8f5a6e80ac45b327eb79be91c56,
     type: 3}
-  m_DetectionMode: 1
+  m_DetectionMode: -1
 --- !u!114 &388525033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d21cf10ba90d849a35904cb183ca82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 100002, guid: 17d12b7570a4eff4eaaa2562f61e7fda, type: 3}
+  prefab: {fileID: 164828, guid: 9e63ac4fe1e9125428c234026a38195d, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
