@@ -16,9 +16,10 @@ public class BuildingPlacmentManager : MonoBehaviour
     [SerializeField]private ARPlaneManager planeManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
+    private bool canPlaceBuilding = true;
 
     private void Update() {
-        if(Input.touchCount > 0)
+        if(Input.touchCount > 0 && canPlaceBuilding)
         {
             if(Input.GetTouch(0).phase == TouchPhase.Began)
             {
@@ -55,5 +56,9 @@ public class BuildingPlacmentManager : MonoBehaviour
 
     public void SwitchBuldings(GameObject building){
         SpawnableBuilding = building;
+    }
+
+    public void StopPlacingBuildings(){
+        canPlaceBuilding = false;
     }
 }
