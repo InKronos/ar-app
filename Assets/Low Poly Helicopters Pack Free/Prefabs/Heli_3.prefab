@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 438454}
   - component: {fileID: 8511436143305082592}
   - component: {fileID: 8525658706268107071}
-  - component: {fileID: 210106988954958877}
+  - component: {fileID: 8353276812677848984}
   m_Layer: 0
   m_Name: Heli_3
   m_TagString: helic
@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 164828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -322,7 +322,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 2.5, z: 9}
   m_Center: {x: 0, y: 1.5, z: -1.5}
---- !u!54 &210106988954958877
+--- !u!54 &8353276812677848984
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

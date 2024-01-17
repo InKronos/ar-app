@@ -18,10 +18,12 @@ public class PlaceObject : MonoBehaviour
     private ARPlaneManager aRPlaneManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
+    GameObject obj;
+
     private void Awake() {
         aRRaycastManager = GetComponent<ARRaycastManager>();
         aRPlaneManager = GetComponent<ARPlaneManager>();
-        arCam = GameObject.Find("AR Camera").GetComponent<Camera>();
+        // arCam = GameObject.Find("MainCamera").GetComponent<Camera>();
     }
 
     private void OnEnable() {
@@ -42,24 +44,31 @@ public class PlaceObject : MonoBehaviour
         if (aRRaycastManager.Raycast(finger.currentTouch.screenPosition,
             hits, TrackableType.PlaneWithinPolygon)) {
             foreach(ARRaycastHit hit in hits) {
-                Pose pose = hit.pose;
-                pose.position.y += 0.5f;
-                GameObject obj = Instantiate(prefab, pose.position, pose.rotation);
+                
+                if (obj == null) {
+                    Pose pose = hit.pose;
+                    pose.position.y += 0.5f;
+                    pose.rotation.y += 90.0f;
 
-                if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp) {
+                    obj = Instantiate(prefab, pose.position, pose.rotation);
+                    Debug.Log("Heli placed");
+
+                    if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp) {
                         Vector3 position = obj.transform.position;
-                        Vector3 cameraPosition = arCam.transform.position;
+                        Vector3 cameraPosition = Camera.main.transform.position;
                         Vector3 direction = cameraPosition - position;
                         Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
                         Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, obj.transform.up.normalized);
                         Quaternion targetRotation = Quaternion.Euler(scaledEuler);
                         obj.transform.rotation = obj.transform.rotation * targetRotation;
+                    }
                 }
             }
         }
         
+        // Something fishy
         RaycastHit h;
-        Ray ray = arCam.ScreenPointToRay(Input.GetTouch(0).position);
+        Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
         if (Input.GetTouch(0).phase == TouchPhase.Began) {
             if (Physics.Raycast(ray, out h)) {
                 if (h.collider.gameObject.tag == "helic") {

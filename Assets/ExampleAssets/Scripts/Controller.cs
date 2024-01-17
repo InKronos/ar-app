@@ -9,7 +9,6 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform rotorsTransform;
 
     private FixedJoystick joystick;
-    private Rigidbody rigidbody;
 
     private bool rotate = false;
 
@@ -19,7 +18,7 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         joystick = FindObjectOfType<FixedJoystick>();
-        rigidbody = gameObject.GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -30,7 +29,7 @@ public class Controller : MonoBehaviour
         float zVal = joystick.Vertical;
 
         Vector3 movement = new Vector3(xVal, 0, zVal);
-        rigidbody.velocity = movement * helicopterSpeed;
+        gameObject.GetComponent<Rigidbody>().velocity = movement * helicopterSpeed;
 
         if(xVal !=0 && zVal !=0) 
         { 
