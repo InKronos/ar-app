@@ -16,27 +16,21 @@ public class PrefabCreator : MonoBehaviour
 
     private void OnEnable()
     {
-        arTrackedImageManager = gameObject.GetComponent<ARTrackedImageManager>();
-        arTrackedImageManager.trackedImagesChanged += OnImageChanged;
+            arTrackedImageManager = gameObject.GetComponent<ARTrackedImageManager>();
+            arTrackedImageManager.trackedImagesChanged += OnImageChanged;
     }
 
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
     {
         foreach (ARTrackedImage image in obj.added)
-        {   
-            if(canSpawnHeli){
+        {
                 Debug.Log("Helic spwaned");
                 helicopter = Instantiate(helicopterPrefab, image.transform);
                 helicopter.transform.position += prefabOffset;
-            }
-            
         }
+            
     }
-
-    public void startSpawnHeli()
-    {
-        canSpawnHeli = true;
-    }
+    
 
 
     
