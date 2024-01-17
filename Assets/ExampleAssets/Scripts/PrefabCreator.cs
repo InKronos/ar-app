@@ -12,6 +12,8 @@ public class PrefabCreator : MonoBehaviour
 
     private GameObject helicopter;
 
+    private bool canSpawnHeli = false;
+
     private void OnEnable()
     {
         arTrackedImageManager = gameObject.GetComponent<ARTrackedImageManager>();
@@ -22,9 +24,20 @@ public class PrefabCreator : MonoBehaviour
     {
         foreach (ARTrackedImage image in obj.added)
         {   
-            Debug.Log("Helic spwaned");
-            helicopter = Instantiate(helicopterPrefab, image.transform);
-            helicopter.transform.position += prefabOffset;
+            if(canSpawnHeli){
+                Debug.Log("Helic spwaned");
+                helicopter = Instantiate(helicopterPrefab, image.transform);
+                helicopter.transform.position += prefabOffset;
+            }
+            
         }
     }
+
+    public void startSpawnHeli()
+    {
+        canSpawnHeli = true;
+    }
+
+
+    
 }
