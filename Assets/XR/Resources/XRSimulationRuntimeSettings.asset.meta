@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 29580a39b4588af45b8288b4440dea8f
+=======
+guid: 70dd9d3fba24c9df19df9e7420cc5caf
+>>>>>>> buildngs
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000
