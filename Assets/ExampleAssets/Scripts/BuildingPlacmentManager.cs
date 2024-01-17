@@ -6,44 +6,102 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Unity.XR.CoreUtils;
+using EnchancedTouch = UnityEngine.InputSystem.EnhancedTouch;
+
+[RequireComponent(requiredComponent: typeof(ARRaycastManager),
+    requiredComponent2: typeof(ARPlaneManager))]
+
 public class BuildingPlacmentManager : MonoBehaviour
 {
     
     [SerializeField]public GameObject SpawnableBuilding;
     [SerializeField]private XROrigin xROrigin;
-    [SerializeField]private ARRaycastManager raycastManager;
+    [SerializeField]private ARRaycastManager aRRaycastManager;
 
-    [SerializeField]private ARPlaneManager planeManager;
+    [SerializeField]private ARPlaneManager aRPlaneManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
+
+    GameObject obj;
+
 
     private bool canPlaceBuilding = true;
 
-    private void Update() {
-        if(Input.touchCount > 0 && canPlaceBuilding)
-        {
-            if(Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
+        private void Awake() {
+        aRRaycastManager = GetComponent<ARRaycastManager>();
+        aRPlaneManager = GetComponent<ARPlaneManager>();
+    }
 
-                bool collision = raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
+    private void OnEnable() {
+        EnchancedTouch.TouchSimulation.Enable();
+        EnchancedTouch.EnhancedTouchSupport.Enable();
+        EnchancedTouch.Touch.onFingerDown += FingerDown;
+    }
 
-                if(collision)
-                {   
-                    Debug.Log("Building placed");
-                    GameObject building = Instantiate(SpawnableBuilding, hits[0].pose.position, hits[0].pose.rotation);
-                    building.transform.localScale= new Vector3((float)0.01, (float)0.01, (float)0.01);
-                    foreach(ARPlane plane in planeManager.trackables)
+    private void OnDisable() {
+        EnchancedTouch.TouchSimulation.Disable();
+        EnchancedTouch.EnhancedTouchSupport.Disable();
+        EnchancedTouch.Touch.onFingerDown -= FingerDown;
+    }
+
+    private void FingerDown(EnchancedTouch.Finger finger) {
+        if (finger.index != 0 ) return;
+
+        if (aRRaycastManager.Raycast(finger.currentTouch.screenPosition,
+            hits, TrackableType.PlaneWithinPolygon)) {
+            foreach(ARRaycastHit hit in hits) {
+                Pose pose = hit.pose;
+                pose.rotation.y += 90.0f;
+
+                obj = Instantiate(SpawnableBuilding, pose.position, pose.rotation);
+                obj.transform.localScale= new Vector3((float)0.01, (float)0.01, (float)0.01);
+                Debug.Log("Building placed");
+
+                if (aRPlaneManager.GetPlane(hit.trackableId).alignment == PlaneAlignment.HorizontalUp) {
+                    Vector3 position = obj.transform.position;
+                    Vector3 cameraPosition = Camera.main.transform.position;
+                    Vector3 direction = cameraPosition - position;
+                    Vector3 targetRotationEuler = Quaternion.LookRotation(direction).eulerAngles;
+                    Vector3 scaledEuler = Vector3.Scale(targetRotationEuler, obj.transform.up.normalized);
+                    Quaternion targetRotation = Quaternion.Euler(scaledEuler);
+                    obj.transform.rotation = obj.transform.rotation * targetRotation;
+                }
+
+                foreach(ARPlane plane in aRPlaneManager.trackables)
                     {
                         plane.gameObject.SetActive(false);
                     }
 
-                    planeManager.enabled = false; 
-                }
-
-               
+                aRPlaneManager.enabled = false; 
             }
         }
     }
+
+    // private void Update() {
+    //     if(Input.touchCount > 0 && canPlaceBuilding)
+    //     {
+    //         if(Input.GetTouch(0).phase == TouchPhase.Began)
+    //         {
+    //             raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
+
+    //             bool collision = raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
+
+    //             if(collision)
+    //             {   
+    //                 Debug.Log("Building placed");
+    //                 GameObject building = Instantiate(SpawnableBuilding, hits[0].pose.position, hits[0].pose.rotation);
+    //                 building.transform.localScale= new Vector3((float)0.01, (float)0.01, (float)0.01);
+    //                 foreach(ARPlane plane in planeManager.trackables)
+    //                 {
+    //                     plane.gameObject.SetActive(false);
+    //                 }
+
+    //                 planeManager.enabled = false; 
+    //             }
+
+               
+    //         }
+    //     }
+    // }
 
     public bool isButtonPressed(){
         if(EventSystem.current.currentSelectedGameObject?.GetComponent<Button>() == null)
