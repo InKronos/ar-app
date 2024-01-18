@@ -18,7 +18,6 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         joystick = FindObjectOfType<FixedJoystick>();
-        //toggleRotation();
     }
 
 

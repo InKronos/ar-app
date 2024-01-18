@@ -22,9 +22,9 @@ public class PrefabCreator : MonoBehaviour
     {
         foreach (ARTrackedImage image in obj.added)
         {
-                Debug.Log("Helic spawned");
                 helicopter = Instantiate(helicopterPrefab, image.transform);
                 helicopter.transform.position += prefabOffset;
+                helicopter.GetComponent<Controller>().toggleRotation();
         }
             
     }

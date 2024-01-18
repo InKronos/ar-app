@@ -18,12 +18,12 @@ MonoBehaviour:
     m_Storage: []
   m_Images:
   - m_SerializedGuid:
-      m_GuidLow: 5433013745713494218
-      m_GuidHigh: 10890082199806105782
+      m_GuidLow: 5036296852834277690
+      m_GuidHigh: 3691081416680613297
     m_SerializedTextureGuid:
-      m_GuidLow: 16263861908861925831
-      m_GuidHigh: 1283563384360859737
+      m_GuidLow: 3959818205686236194
+      m_GuidHigh: 1252918960035591337
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: bird
-    m_Texture: {fileID: 2800000, guid: 89b8b9c7d83ce1b459f886f31822d011, type: 3}
+    m_Name: heliport
+    m_Texture: {fileID: 0}
