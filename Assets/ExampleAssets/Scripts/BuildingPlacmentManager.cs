@@ -65,43 +65,9 @@ public class BuildingPlacmentManager : MonoBehaviour
                     Quaternion targetRotation = Quaternion.Euler(scaledEuler);
                     obj.transform.rotation = obj.transform.rotation * targetRotation;
                 }
-
-                foreach(ARPlane plane in aRPlaneManager.trackables)
-                    {
-                        plane.gameObject.SetActive(false);
-                    }
-
-                aRPlaneManager.enabled = false; 
             }
         }
     }
-
-    // private void Update() {
-    //     if(Input.touchCount > 0 && canPlaceBuilding)
-    //     {
-    //         if(Input.GetTouch(0).phase == TouchPhase.Began)
-    //         {
-    //             raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
-
-    //             bool collision = raycastManager.Raycast(Input.GetTouch(0).position, hits, TrackableType.PlaneWithinPolygon);
-
-    //             if(collision)
-    //             {   
-    //                 Debug.Log("Building placed");
-    //                 GameObject building = Instantiate(SpawnableBuilding, hits[0].pose.position, hits[0].pose.rotation);
-    //                 building.transform.localScale= new Vector3((float)0.01, (float)0.01, (float)0.01);
-    //                 foreach(ARPlane plane in planeManager.trackables)
-    //                 {
-    //                     plane.gameObject.SetActive(false);
-    //                 }
-
-    //                 planeManager.enabled = false; 
-    //             }
-
-               
-    //         }
-    //     }
-    // }
 
     public bool isButtonPressed(){
         if(EventSystem.current.currentSelectedGameObject?.GetComponent<Button>() == null)
@@ -119,5 +85,11 @@ public class BuildingPlacmentManager : MonoBehaviour
 
     public void StopPlacingBuildings(){
         canPlaceBuilding = false;
+
+        // foreach(ARPlane plane in aRPlaneManager.trackables)
+        // {
+        //     plane.gameObject.SetActive(false);
+        // }
+        aRPlaneManager.enabled = false;
     }
 }

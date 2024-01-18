@@ -18,10 +18,10 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         joystick = FindObjectOfType<FixedJoystick>();
-        
+        //toggleRotation();
     }
 
-    // Update is called once per frame
+
     void Update() {
         if (rotate) rotorsTransform.Rotate(Vector3.up * 50f * rotorSpeedModifier);
 

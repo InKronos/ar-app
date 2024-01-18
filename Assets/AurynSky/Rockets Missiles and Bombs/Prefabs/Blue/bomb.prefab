@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23490175017378082}
   - component: {fileID: -1423586515171367194}
   - component: {fileID: 3049173345237838283}
+  - component: {fileID: 5834799566127623909}
   m_Layer: 0
   m_Name: bomb
   m_TagString: Untagged
@@ -93,7 +94,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1653852274494088}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -124,3 +125,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3006cb050c81a6641bbee395a2fab72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  esplosionRadius: 5
+--- !u!136 &5834799566127623909
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653852274494088}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.5086632
+  m_Height: 11.9181595
+  m_Direction: 1
+  m_Center: {x: -0.00000023841858, y: 0.70814633, z: -0.00000035762787}

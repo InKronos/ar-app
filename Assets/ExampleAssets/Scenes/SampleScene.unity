@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44658822, g: 0.49642307, b: 0.5748253, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -729,6 +729,7 @@ GameObject:
   - component: {fileID: 641245945}
   - component: {fileID: 641245946}
   - component: {fileID: 641245947}
+  - component: {fileID: 641245948}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -820,7 +821,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 641245939}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0080f22e8f8536047a853b7eaaa41d20, type: 3}
   m_Name: 
@@ -844,6 +845,20 @@ MonoBehaviour:
   xROrigin: {fileID: 641245940}
   aRRaycastManager: {fileID: 0}
   aRPlaneManager: {fileID: 0}
+--- !u!114 &641245948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641245939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3006cb050c81a6641bbee395a2fab72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1653852274494088, guid: 7b1ca2bf9ad0c2d4eb381c8e4bf6493b, type: 3}
+  explosion: {fileID: 100008, guid: 875c9bcb71a8d7f46a64a8a7df5987e0, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,7 +1034,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 782628378}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 641245948}
+        m_TargetAssemblyTypeName: Bomb, Assembly-CSharp
+        m_MethodName: dropBomb
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &782628378
 MonoBehaviour:
   m_ObjectHideFlags: 0

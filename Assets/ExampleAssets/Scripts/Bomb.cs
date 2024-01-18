@@ -1,46 +1,77 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 
 public class Bomb : MonoBehaviour
-{
-    public float esplosionRadius = 5f;
-    private ARPlaneManager arPlaneManager;
+{   
+
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject explosion;
+    
+    // private ARPlaneManager arPlaneManager;
+    GameObject bomb;
+    GameObject exp;
+    Vector3 b;
+
+    // void Start()
+    // {
+    //     arPlaneManager = FindObjectOfType<ARPlaneManager>();
+    // }
 
     void OnCollisionEnter(Collision collision) {
-        if (IsCollisionWithARPlane(collision)) {
-            Explode();
-        }
-    }
-
-    bool IsCollisionWithARPlane(Collision collision) {
-        foreach (ContactPoint contact in collision.contacts) {
-            ARPlane arPlane = GetARPlaneFromPosition(contact.point);
-            if (arPlane != null) {
-                return true;
+        if (collision.gameObject.tag == "building") {
+                Explode();
+                Destroy(collision.gameObject);
             }
-        }
-        return false;
+        //exp = Instantiate(explosion, bomb.transform.position, Quaternion.Euler(0f, 0f, 0f));
+        Explode();
     }
 
-    ARPlane GetARPlaneFromPosition(Vector3 position) {
-        if (arPlaneManager == null) {
-            arPlaneManager = FindObjectOfType<ARPlaneManager>();
-        }
+    // void Update() {
 
-        // if (arPlaneManager != null) {
-        //     List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        //     if (arPlaneManager.Raycast(new Ray(position, Vector3.down), hits))
-        //     {
-        //         return hits[0].plane;
-        //     }
-        // }
+    //     foreach (ARPlane arPlane in arPlaneManager.trackables) {
+    //         if (CheckCollisionWithPlane(arPlane)) {
+    //             Explode();
+    //         }
+    //     }
+    // }
 
-        return null;
-    }
+    // bool CheckCollisionWithPlane(ARPlane arPlane) {
+    //     Collider objectCollider = GetComponent<Collider>();
+
+    //     if (objectCollider != null) {
+    //         Vector3 planePosition = arPlane.transform.position;
+    //         Vector3 planeExtents = new Vector3(arPlane.extents.x, 0.001f, arPlane.extents.y);
+
+    //         return objectCollider.bounds.Intersects(new Bounds(planePosition, planeExtents));
+    //     }
+
+    //     return false;
+    // }
 
     void Explode() {
         Debug.Log("BOOM");
+        Destroy(gameObject);
+    }
+
+    IEnumerator Spawn()
+    {
+        yield return new WaitForSeconds(0.25f);
+        exp = Instantiate(explosion, b, Quaternion.Euler(0f, 0f, 0f));
+    }
+
+    public void dropBomb() {
+        GameObject helic = GameObject.FindGameObjectWithTag("helic");
+        Vector3 p = helic.transform.position;
+        p.y -= 0.07f;
+        bomb = Instantiate(prefab, p, Quaternion.Euler(180f, 0f, 0f));
+        bomb.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        b= bomb.transform.position;
+        b.y -= 0.4f;
+        StartCoroutine(Spawn());
+        print("Bomb dropped");
     }
 }
